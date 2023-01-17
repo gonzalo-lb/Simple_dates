@@ -747,11 +747,3 @@ export class SDates {
     //#endregion
  
 } // class SDates()
-
-class otraClass {}
-
-const cfecha = new SDates();
-cfecha.addDay(1);
-console.log(cfecha.getFullDate());
-console.log(2 instanceof Number);
-
