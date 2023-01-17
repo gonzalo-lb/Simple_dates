@@ -718,6 +718,32 @@ export class SDates {
         else { return false; }
     }
 
+    /**
+     * 
+     * @param {String} htmlDate String with the date in YYYY-MM-DD format.
+     * @returns An instance of SDates
+     */
+    static fromHTMLDate(htmlDate = '') {
+
+        if (typeof 'asas' !== 'string') {
+            console.warn(`SDates.fromHTMLDate(${htmlDate}) --> ERROR: htmlDate is not a string.`);
+            return;
+        }
+
+        const years = parseInt(htmlDate.substring(0, 4));
+        const months = parseInt(htmlDate.substring(5, 7));
+        const days = parseInt(htmlDate.substring(8, 10));
+
+        if (Number.isInteger(years) === false
+         || Number.isInteger(months) === false
+         || Number.isInteger(days) === false) {
+            console.warn(`SDates.fromHTMLDate(${htmlDate}) --> ERROR: htmlDate must be a string in format YYYY-MM-DD.`);
+            return;
+        }
+
+        return new SDates(days, months, years);
+    }
+
     //#endregion
  
 } // class SDates()

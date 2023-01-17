@@ -135,6 +135,11 @@ Devuelve un boolean<br>
  - True: /day/month/year es *null*.<br>
  - False: La fecha ya fue seteada.<br>
 
+## **fromHTMLDate(htmlDate)**
+
+> Toma la fecha en formato HTML input-date y lo pasa a una instancia de SDates.<br>
+ - *htmlDate*: String con la fecha en formato YYYY-MM-DD.<br>
+
 # GET METHODS
 
 ## **getFullDate()**
