@@ -2,8 +2,7 @@
 
 ## **Class instantiation syntax**
 
-> SDates(day, month, year)<br>
-> `const fecha = new SDates(3, 5, 2019);`<br>
+> SDates(day, month, year)<br> > `const fecha = new SDates(3, 5, 2019);`<br>
 
 - Los 3 parámetros tienen que ser números enteros, mayores a 0<br>
 - El valor del mes no puede ser superior a 12<br>
@@ -13,8 +12,7 @@
 
 ###
 
-> SDates()<br>
-> `const fecha = new SDates();`<br>
+> SDates()<br> > `const fecha = new SDates();`<br>
 
 - Es para declarar la variable sin ingresar parámetros.<br>
 - Todos los valores van a estar en _null_.
@@ -23,9 +21,7 @@
 ###
 
 > SDates(SDates)<br>
-> Hace una copia de la instancia de la class ingresada como parámetro.<br>
-> `const fecha = new SDates(3, 5, 2019);`<br>
-> `const fechaCopy = new SDates(fecha);`
+> Hace una copia de la instancia de la class ingresada como parámetro.<br> > `const fecha = new SDates(3, 5, 2019);`<br> > `const fechaCopy = new SDates(fecha);`
 
 # MAIN CLASS METHODS
 
@@ -99,6 +95,16 @@
 - Debe haber una fecha seteada de antemano. Ninguno de los valores día/mes/año deben ser _null_<br>
 - En caso de que algún valor sea _null_, la fecha debe ser seteada mediante _setDate()_
 
+## **subtractYearMonthDay(years, months, days, subtractOrder)**
+
+> Resta los años, meses y días pasados como parámetro, en el orden que se le pase a _subtractOrder_.<br>
+
+- _subtractOrder_ por defecto es "YMD" (años, meses días).<br>
+- Las opciones de subtractOrder son: "YMD", "YDM", "DYM", "DMY", "MYD", "MDY".<br>
+- Si en _subtractOrder_ se pasa como parámetro algo distinto de las opciones, lo avisa en la consola y utiliza la opción por defecto ("YMD").<br>
+- Los años, meses y días tienen que ser un integer mayor a 0. De lo contrario no realiza la resta.<br>
+- La función no resta números negativos.
+
 # COMPARE METHODS
 
 ## **isGreaterThan(anotherDate)**
@@ -151,9 +157,7 @@
 ## **copy()**
 
 > Devuelve una copia de la instancia de la class.<br>
-> Ej.:<br>
-> `const fecha = new SDates(22, 2, 2024);`<br>
-> `const otraFecha = fecha._copy();`<br>
+> Ej.:<br> > `const fecha = new SDates(22, 2, 2024);`<br> > `const otraFecha = fecha._copy();`<br>
 
 ## **isNull()**
 

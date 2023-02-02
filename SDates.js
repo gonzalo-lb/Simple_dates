@@ -684,6 +684,85 @@ export class SDates {
   } // _subtractDay()
 
   /**
+   * Subtracts the years, months and days passed as parameters, using the order given in *subtractOrder*
+   * @param {*} years Must be an integer
+   * @param {*} months Must be an integer
+   * @param {*} days Must be an integer
+   * @param {*} subtractOrder Optional. String. Default: "YMD" (Year, Day, Month).
+     The other subtractOrder options are:   
+     - "YMD"<br>
+     - "YDM"<br>
+     - "DYM"<br>
+     - "DMY"<br>
+     - "MYD"<br>
+     - "MDY"
+   * @returns Void.
+   */
+  subtractYearMonthDay(years = 0, months = 0, days = 0, subtractOrder = "YMD") {
+    // Controla los parámetros
+    if (this.#day === null || this.#month === null || this.#year === null) {
+      console.warn(
+        "SDates() --> subtractYearMonthDay(years) ERROR: day/month/year is null. Use setDate()."
+      );
+      return;
+    }
+
+    if (Number.isInteger(years) === false) {
+      console.warn(
+        `SDates.subtractYearMonthDay(years = ${years}): years must be an integer.`
+      );
+      return;
+    }
+
+    if (Number.isInteger(months) === false) {
+      console.warn(
+        `SDates.subtractYearMonthDay(months = ${months}): months must be an integer.`
+      );
+      return;
+    }
+
+    if (Number.isInteger(days) === false) {
+      console.warn(
+        `SDates.subtractYearMonthDay(days = ${days}): days must be an integer.`
+      );
+      return;
+    }
+
+    if (subtractOrder === "YMD") {
+      years > 0 && this.subtractYear(years);
+      months > 0 && this.subtractMonth(months);
+      days > 0 && this.subtractDay(days);
+    } else if (subtractOrder === "YDM") {
+      years > 0 && this.subtractYear(years);
+      days > 0 && this.subtractDay(days);
+      months > 0 && this.subtractMonth(months);
+    } else if (subtractOrder === "DMY") {
+      days > 0 && this.subtractDay(days);
+      months > 0 && this.subtractMonth(months);
+      years > 0 && this.subtractYear(years);
+    } else if (subtractOrder === "DYM") {
+      days > 0 && this.subtractDay(days);
+      years > 0 && this.subtractYear(years);
+      months > 0 && this.subtractMonth(months);
+    } else if (subtractOrder === "MYD") {
+      months > 0 && this.subtractMonth(months);
+      years > 0 && this.subtractYear(years);
+      days > 0 && this.subtractDay(days);
+    } else if (subtractOrder === "MDY") {
+      months > 0 && this.subtractMonth(months);
+      days > 0 && this.subtractDay(days);
+      years > 0 && this.subtractYear(years);
+    } else {
+      console.warn(
+        `SDates.subtractYearMonthDay(subtractOrder = ${subtractOrder}): subtractOrder is not a valid input. Will use default "YMD"`
+      );
+      years > 0 && this.subtractYear(years);
+      months > 0 && this.subtractMonth(months);
+      days > 0 && this.subtractDay(days);
+    }
+  } // subtractYearMonthDay(...)
+
+  /**
      * Compares the current date with the one passed as a parameter.
        This instance cannot have *null* values.
      * @param {SDates} anotherDate Another instance of SDates, with no *null* values.
@@ -946,7 +1025,7 @@ export class SDates {
    * @returns An instance of SDates
    */
   static fromHTMLDate(htmlDate = "") {
-    if (typeof "asas" !== "string") {
+    if (typeof htmlDate !== "string") {
       console.warn(
         `SDates.fromHTMLDate(${htmlDate}) --> ERROR: htmlDate is not a string.`
       );
