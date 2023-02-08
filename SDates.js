@@ -1022,9 +1022,9 @@ export class SDates {
   /**
    *
    * @param {String} htmlDate String with the date in YYYY-MM-DD format.
-   * @returns An instance of SDates
+   * @returns An instance of SDates()
    */
-  static fromHTMLDate(htmlDate = "") {
+  static fromHTMLDate(htmlDate = null) {
     if (typeof htmlDate !== "string") {
       console.warn(
         `SDates.fromHTMLDate(${htmlDate}) --> ERROR: htmlDate is not a string.`
@@ -1046,6 +1046,26 @@ export class SDates {
       );
       return;
     }
+
+    return new SDates(days, months, years);
+  } // fromHTMLDate()
+
+  /**
+   *
+   * @param {*} JSDate An instance of Date()
+   * @returns An instance of SDates()
+   */
+  static fromJSDate(JSDate = null) {
+    if (JSDate instanceof Date === false) {
+      console.warn(
+        `SDates.fromJSDate(${JSDate}) --> ERROR: JSDate is not an instance of Date().`
+      );
+      return;
+    }
+
+    const years = JSDate.getFullYear();
+    const months = JSDate.getMonth() + 1;
+    const days = JSDate.getDate();
 
     return new SDates(days, months, years);
   }

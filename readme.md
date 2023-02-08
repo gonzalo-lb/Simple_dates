@@ -173,6 +173,12 @@
 
 - _htmlDate_: String con la fecha en formato YYYY-MM-DD.<br>
 
+## **fromJSDate(JSDate)**
+
+> Toma una instancia de la class Date y lo pasa a una instancia de SDates.<br>
+
+- _JSDate_: Instancia de la class Date.<br>
+
 # GET METHODS
 
 ## **getFullDate()**
