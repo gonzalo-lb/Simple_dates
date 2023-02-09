@@ -197,6 +197,10 @@
 
 > Devuelve un Number con el año.<br>
 
+## **asJSDate()**
+
+> Devuelve una instancia de la class Date, con la información de la instancia de SDates.<br>
+
 # SET METHODS
 
 ## **setDate(day, month, year)**

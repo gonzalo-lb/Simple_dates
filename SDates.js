@@ -154,6 +154,14 @@ export class SDates {
     return `${this.#day}/${this.#month}/${this.#year}`;
   }
 
+  /**
+   * Creates an instance of the JavaScript Date class, and returns it with the current SDate information
+   * @returns An instance of a Date class
+   */
+  asJSDate() {
+    return new Date(this.getYear(), this.getMonth() - 1, this.getDay());
+  }
+
   //#endregion
 
   //#region SET METHODS
@@ -1068,7 +1076,7 @@ export class SDates {
     const days = JSDate.getDate();
 
     return new SDates(days, months, years);
-  }
+  } // from JSDate()
 
   //#endregion
 } // class SDates()
