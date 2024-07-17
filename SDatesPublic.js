@@ -152,10 +152,21 @@ export class SDatesPublic {
   }
 
   /**
-   * @returns a string with the date in D/M/YYYY format.
+   *
+   * @param {*} format By default: "D/M/Y"
+   * Other formats:
+   * - "YYYY-MM-DD"
+   * @returns A string with the date in the desired format
    */
-  getFullDate() {
-    return `${this._day}/${this._month}/${this._year}`;
+  getFullDate(format) {
+    if (format === "YYYY-MM-DD") {
+      const day = String(this._day).padStart(2, "0");
+      const month = String(this._month).padStart(2, "0");
+      const year = String(this._year).padStart(4, "0");
+      return `${year}-${month}-${day}`;
+    } else {
+      return `${this._day}/${this._month}/${this._year}`;
+    }
   }
 
   /**
@@ -909,14 +920,14 @@ export class SDatesPublic {
       anotherDate.getYear() === null
     ) {
       console.warn(
-        `SDatesPublic.isEqualOrGreaterThan(${anotherDate}) --> ERROR: *anotherDate* day/month/year cannot have null values.`
+        `SDatesPublic.isGreaterThan(${anotherDate}) --> ERROR: *anotherDate* day/month/year cannot have null values.`
       );
       return;
     }
 
     if (this._day === null || this._month === null || this._year === null) {
       console.warn(
-        "SDatesPublic.isEqualOrGreaterThan() --> ERROR: day/month/year cannot have null values."
+        "SDatesPublic.isGreaterThan() --> ERROR: day/month/year cannot have null values."
       );
       return;
     }
@@ -1044,156 +1055,6 @@ export class SDatesPublic {
   }
 
   /**
-   * Controla si la fecha tiene formato YYYY-MM-DD, y si sus valores constituyen una fecha válida
-   * @param {String} htmlDate String with the date in YYYY-MM-DD format.
-   * @returns {Object} {isValid:Boolean, errorMsg:String} (si es false, indica el motivo en la consola)
-   */
-  static isValidHTMLDate(htmlDate = null) {
-    function isNumberInStringFormatOf1Digit(inputString) {
-      if (
-        inputString === "0" ||
-        inputString === "1" ||
-        inputString === "2" ||
-        inputString === "3" ||
-        inputString === "4" ||
-        inputString === "5" ||
-        inputString === "6" ||
-        inputString === "7" ||
-        inputString === "8" ||
-        inputString === "9"
-      ) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-
-    function esDivisible(numero, divisiblePor) {
-      if (numero % divisiblePor === 0 || numero % divisiblePor === -0) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-
-    function isLeapYear(year) {
-      // Es bisiesto si es divisible entre cuatro y (no es divisible entre 100 o es divisible entre 400).
-      if (esDivisible(year, 4) === false) {
-        return false;
-      } else if (esDivisible(year, 100) === false) {
-        return true;
-      } else if (esDivisible(year, 400) === true) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-
-    const monthsAOD = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-    let toRet = {
-      isValid: false,
-      errorMsg: "",
-    };
-
-    // Controla que se haya ingresado un String
-    if (typeof htmlDate !== "string") {
-      console.warn(
-        `SDatesPublic.isValidHTMLDate(${htmlDate}) --> ERROR: htmlDate is not a string.`
-      );
-      toRet.errorMsg = "La fecha no es un String";
-      return toRet;
-    }
-
-    const char0 = htmlDate.substring(0, 1);
-    const char1 = htmlDate.substring(1, 2);
-    const char2 = htmlDate.substring(2, 3);
-    const char3 = htmlDate.substring(3, 4);
-    const char4 = htmlDate.substring(4, 5);
-    const char5 = htmlDate.substring(5, 6);
-    const char6 = htmlDate.substring(6, 7);
-    const char7 = htmlDate.substring(7, 8);
-    const char8 = htmlDate.substring(8, 9);
-    const char9 = htmlDate.substring(9, 10);
-
-    // Controla que YYYY, MM y DD sean números, y que estén separados por guiones
-    if (
-      isNumberInStringFormatOf1Digit(char0) === false ||
-      isNumberInStringFormatOf1Digit(char1) === false ||
-      isNumberInStringFormatOf1Digit(char2) === false ||
-      isNumberInStringFormatOf1Digit(char3) === false ||
-      isNumberInStringFormatOf1Digit(char5) === false ||
-      isNumberInStringFormatOf1Digit(char6) === false ||
-      isNumberInStringFormatOf1Digit(char8) === false ||
-      isNumberInStringFormatOf1Digit(char9) === false ||
-      char4 !== "-" ||
-      char7 !== "-"
-    ) {
-      console.warn(
-        `SDatesPublic.isValidHTMLDate(${htmlDate}) --> ERROR: htmlDate does not have this format "YYYY-MM-DD".`
-      );
-      toRet.errorMsg = "La fecha no tiene el formato AAAA-MM-DD";
-      return toRet;
-    }
-
-    const years = parseInt(htmlDate.substring(0, 4));
-    const months = parseInt(htmlDate.substring(5, 7));
-    const days = parseInt(htmlDate.substring(8, 10));
-
-    // Controla los valores de los años/meses/días
-    if (months === 2) {
-      // Si es febrero:
-      if (isLeapYear(years) === true) {
-        if (days < 1 || days > 29) {
-          console.warn(
-            `SDatesPublic.isValidHTMLDate(${htmlDate}) --> ERROR: El día debe ser un número entre 1 y 29.`
-          );
-          toRet.errorMsg = "El día debe ser un número entre 1 y 29";
-          return toRet;
-        }
-      } else {
-        if (days < 1 || days > 28) {
-          console.warn(
-            `SDatesPublic.isValidHTMLDate(${htmlDate}) --> ERROR: El día debe ser un número entre 1 y 28.`
-          );
-          toRet.errorMsg = "El día debe ser un número entre 1 y 28";
-          return toRet;
-        }
-      }
-    } else {
-      // Si no es febrero:
-      const maxDays = monthsAOD[months - 1];
-      if (days < 1 || days > maxDays) {
-        console.warn(
-          `SDatesPublic.isValidHTMLDate(${htmlDate}) --> ERROR: El día debe ser un número entre 1 y ${maxDays}.`
-        );
-        toRet.errorMsg = `El día debe ser un número entre 1 y ${maxDays}`;
-        return toRet;
-      }
-    }
-
-    if (months < 1 || months > 12) {
-      console.warn(
-        `SDatesPublic.isValidHTMLDate(${htmlDate}) --> ERROR: El mes no puede ser inferior a 1 ni superior a 12.`
-      );
-      toRet.errorMsg = "El mes debe ser un valor entre 1 y 12";
-      return toRet;
-    }
-
-    if (years < 1 || years > 9999) {
-      console.warn(
-        `SDatesPublic.isValidHTMLDate(${htmlDate}) --> ERROR: El año no puede ser inferior a 1 ni superior a 9999.`
-      );
-      toRet.errorMsg = "El año debe ser un valor entre 1 y 9999";
-      return toRet;
-    }
-
-    toRet.isValid = true;
-    toRet.errorMsg = "Fecha válida";
-    return toRet;
-  } // isValidHTMLDate()
-
-  /**
    *
    * @param {String} htmlDate String with the date in YYYY-MM-DD format.
    * @returns An instance of SDatesPublic()
@@ -1243,16 +1104,6 @@ export class SDatesPublic {
 
     return new SDatesPublic(days, months, years);
   } // from JSDate()
-
-  /**
-   * Returns an instance of SDatesPublic with the actual date
-   * @returns An instance of SDatesPublic
-   */
-  static today() {
-    const fechaActualJS = new Date(Date.now());
-    const fechaActual = SDatesPublic.fromJSDate(fechaActualJS);
-    return fechaActual;
-  } // today()
 
   //#endregion
 } // class SDatesPublic()
