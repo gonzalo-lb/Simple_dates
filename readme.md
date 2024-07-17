@@ -181,9 +181,13 @@
 
 # GET METHODS
 
-## **getFullDate()**
+## **getFullDate(format)**
 
-> Devuelve un string con la fecha en formato D/M/AAAA.
+> Devuelve un string con la fecha en formato D/M/AAAA.<br>
+
+- _format_: Por defecto en "D/M/A"<br>
+  Otros formatos:<br>
+  "YYYY-MM-DD"<br>
 
 ## **getDay()**
 
